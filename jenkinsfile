@@ -10,6 +10,14 @@ pipeline
 		
 		}
 		}
+		stage('validate code')
+		{
+		steps{
+		withMaven(jdk: 'localjdk-1.8', maven: 'local maven') {
+		sh 'mvn validate'
+		}
+		}
+		}
 	
 	
 	}
