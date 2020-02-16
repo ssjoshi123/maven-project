@@ -33,6 +33,21 @@ pipeline
 		sh 'mvn test'}
 		}
 		}
+		stage('package')
+		{
+		steps{
+		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+		sh 'mvn package'}
+		}
+		}
+		stage('verify')
+		{
+		steps{
+		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+		sh 'mvn verify'}
+		}
+		}
+		
 	
 	}
 }
