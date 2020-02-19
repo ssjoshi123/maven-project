@@ -1,6 +1,6 @@
 pipeline
 {
- agent { label 'maven' }
+ agent none
  stages
  {
  stage('scm checkout')
@@ -10,6 +10,7 @@ pipeline
  git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
  }
  }
+ agent { label 'maven' }
  stage('Build')
  {
  steps{
