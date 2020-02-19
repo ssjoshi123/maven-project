@@ -1,6 +1,6 @@
 pipeline
 {
- agent none
+ agent { label 'maven' }
  stages
  {
  stage('scm checkout')
@@ -10,12 +10,12 @@ pipeline
  git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
  }
  }
- agent { label 'maven' }
+ 
  stage('Build')
  {
  steps{
  withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
- sh 'mvn clean pacakge'
+ sh 'mvn clean package'
  }
  }
  }
