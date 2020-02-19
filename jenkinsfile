@@ -1,53 +1,22 @@
 pipeline
 {
-	agent any
-	stages
-	{
-		stage('scm checkout')
-		{
-		steps{
-		git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
-		
-		}
-		}
-		stage('validate code')
-		{
-		steps{
-		withMaven(jdk: 'localjdk-1.8', maven: 'local maven') {
-		sh 'mvn validate'
-		}
-		}
-		}
-		stage('compile code')
-		{
-		steps{
-		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-		sh 'mvn compile'
-		}
-		}
-		}
-		stage('test code')
-		{
-		steps{
-		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-		sh 'mvn test'}
-		}
-		}
-		stage('package')
-		{
-		steps{
-		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-		sh 'mvn package'}
-		}
-		}
-		stage('verify')
-		{
-		steps{
-		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-		sh 'mvn verify'}
-		}
-		}
-		
-	
-	}
-}
+ agent { label 'maven' }
+ stages
+ {
+ stage('scm checkout')
+ {
+ steps
+ {
+ git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
+ }
+ }
+ stage('Build')
+ {
+ steps{
+ withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+ sh 'mvn clean pacakge'
+ }
+ }
+ }
+ }
+ }
