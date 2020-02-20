@@ -1,6 +1,6 @@
 pipeline
 {
- agent { label 'maven' }
+ agent none
  stages
  {
  stage('scm checkout')
@@ -13,6 +13,7 @@ pipeline
  
  stage('Build')
  {
+ agent { label 'maven' }
  steps{
  withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
  sh 'mvn clean package'
