@@ -9,13 +9,18 @@ steps{
 git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
 }
 }
-stage('maven sonar')
+stage('package')
+		{
+		steps{
+		withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+		sh 'mvn package'}
+		}
+		}
+stage('deploy to tomcat')
 {
 steps{
-withSonarQubeEnv('newsonar'){
-withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-sh 'mvn package sonar:sonar'
-}
+sshagent(['cicd']) {
+    sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/jenkin-build-job/webapp/target/*.war  ec2-user@172.31.94.113:/usr/share/tomcat/webapps/'
 }
 }
 }
