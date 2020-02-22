@@ -1,25 +1,25 @@
 pipeline
 {
- agent none
- stages
- {
- stage('scm checkout')
- {
- agent { label 'maven' }
- steps
- {
- git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
- }
- }
- 
- stage('Build')
- {
- agent { label 'maven' }
- steps{
- withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
- sh 'mvn clean package'
- }
- }
- }
- }
- }
+agent any
+stages
+{
+stage('scm checkout')
+{
+steps{
+git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
+}
+}
+stage('maven sonar')
+{
+steps{
+withSonarQubeEnv(credentialsId: 'mysonar'){
+withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+
+sh 'clean mvn package sonar:sonar'
+
+}
+}
+}
+}
+}
+}
