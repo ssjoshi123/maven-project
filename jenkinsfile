@@ -12,7 +12,7 @@ git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
 stage('maven sonar')
 {
 steps{
-withSonarQubeEnv(credentialsId: 'newsonar'){
+withSonarQubeEnv('newsonar'){
 withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
 sh 'clean mvn package sonar:sonar'
 }
