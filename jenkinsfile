@@ -14,9 +14,7 @@ stage('maven sonar')
 steps{
 withSonarQubeEnv(credentialsId: 'newsonar'){
 withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-
 sh 'clean mvn package sonar:sonar'
-
 }
 }
 }
