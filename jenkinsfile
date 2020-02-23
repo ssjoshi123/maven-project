@@ -26,10 +26,11 @@ stage('compile')
 steps{
 withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
 		sh 'mvn compile'}
+		
+}
+}
 }
 }
 failfast: true
-}
-}
 }
 }
