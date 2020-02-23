@@ -30,7 +30,7 @@ withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
 }
 }
 }
-failfast: true
+failfast: false
 }
 }
 }
