@@ -14,7 +14,7 @@ steps
 sh 'echo deploy to windows'
 }
 }
-stage('print')
+stage('print2')
 {
 steps{
 sh 'echo deploy to linux'
