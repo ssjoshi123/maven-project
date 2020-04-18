@@ -1,37 +1,27 @@
 pipeline
 {
 agent any
-stages
-{
+stages{
 stage('scm checkout')
 {
 steps{
-git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
-}
-}
-stage('parallel execution')
-{
-parallel
-{
-stage('package')
-{
-steps
-{
-withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+  git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
+ }
+ }
+ stage('Package')
+ {
+ steps
+ {
+   withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
 		sh 'mvn package'}
-}
-}
-stage('compile')
-{
-steps{
-withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
-		sh 'mvn compile'}
-		
-}
-}
-
-}
-failFast true
-}
-}
-}
+		}
+		}
+ stage('docker Build')
+ {
+ steps{
+ sh 'docker build -t ssjoshi/tomcat:0.0.1 .'
+ }
+ }
+  
+		}
+		}
