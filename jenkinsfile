@@ -22,4 +22,7 @@ steps{
  sh 'docker build -t ssjoshi/tomcat:0.0.1 .'
  }
  }
+ }
+ }
+ 
   
