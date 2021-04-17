@@ -1,29 +1,40 @@
 pipeline
 {
 agent any
-stages{
+stages
+{
 stage('scm checkout')
 {
 steps{
-  git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
- }
- }
- stage('Package')
- {
- steps
- {
-   withMaven(jdk: 'localjdk-1.8', maven: 'local maven'){
+git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
+}
+}
+stage('package')
+		{
+		steps{
+		withMaven(jdk: 'localjdk-1.8', maven: 'localmaven'){
 		sh 'mvn package'}
 		}
 		}
- stage('docker Build')
- {
- steps{
- sh 'docker build -t ssjoshi/tomcat:0.0.1 .'
- }
- }
- }
- }
+stage('maven sonar')
+{
+steps{
+withSonarQubeEnv('sonar'){
+withMaven(jdk: 'localjdk-1.8', maven: 'localmaven'){
 
- 
-  
+sh 'clean mvn package sonar:sonar'
+
+}
+}
+}
+}
+stage('deploy to tomcat')
+{
+steps{
+sshagent(['cicd']) {
+    sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/jenkin-build-job/webapp/target/*.war  ec2-user@172.31.74.73:/usr/share/tomcat/webapps/'
+}
+}
+}
+}
+}
