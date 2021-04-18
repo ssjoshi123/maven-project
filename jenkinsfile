@@ -22,7 +22,7 @@ steps{
 withSonarQubeEnv('sonar'){
 withMaven(jdk: 'localjdk', maven: 'localmaven'){
 
-sh 'clean mvn package sonar:sonar'
+sh 'mvn package sonar:sonar'
 
 }
 }
