@@ -41,7 +41,7 @@ stage('publish to Hygieia')
 steps{
 archiveArtifacts 'webapp/target/*.war'
 hygieiaArtifactPublishStep artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: ''
-hygieiaDeployPublishStep applicationName: 'Product', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'Prod'
+hygieiaDeployPublishStep applicationName: 'Product', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: 'webapp*.war', buildStatus: 'InProgress', environmentName: 'Prod'
 }
 }
 }
