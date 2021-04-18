@@ -39,7 +39,7 @@ sshagent(['tomcat2']) {
 stage('publish to Hygieia')
 {
 steps{
-hygieiaDeployPublishStep applicationName: 'Application1', artifactDirectory: '/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'Dev'
+hygieiaDeployPublishStep applicationName: 'Application1', artifactDirectory: './target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'Dev'
 }
 }
 }
