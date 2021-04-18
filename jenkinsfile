@@ -12,7 +12,7 @@ git branch: 'master', url: 'https://github.com/ssjoshi123/maven-project'
 stage('package')
 		{
 		steps{
-		withMaven(jdk: 'localjdk-1.8', maven: 'localmaven'){
+		withMaven(jdk: 'localjdk', maven: 'localmaven'){
 		sh 'mvn package'}
 		}
 		}
@@ -20,7 +20,7 @@ stage('maven sonar')
 {
 steps{
 withSonarQubeEnv('sonar'){
-withMaven(jdk: 'localjdk-1.8', maven: 'localmaven'){
+withMaven(jdk: 'localjdk', maven: 'localmaven'){
 
 sh 'clean mvn package sonar:sonar'
 
