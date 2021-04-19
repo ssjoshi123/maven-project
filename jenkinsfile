@@ -31,7 +31,7 @@ stage('Deploy to DEV env') {
                 echo 'make publish'
                 hygieiaBuildPublishStep buildStatus: 'Success'
                 hygieiaArtifactPublishStep artifactDirectory: 'target', artifactGroup: 'www.letv.bank', artifactName: 'webapp*.war', artifactVersion: ''
-                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
+                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'webapp/target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
             }
       
        }
@@ -43,13 +43,13 @@ stage('Smoke Test'){
  stage('Deploy to QA env') {
             steps {
                 echo 'make publish'
-                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
+                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'webapp/target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
             }
         }
   stage('Deploy to Prod env') {
             steps {
                 echo 'make publish'
-                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Prod'
+                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'webapp/target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Prod'
     }
 }
 }
