@@ -14,9 +14,6 @@ stage('package')
 		steps{
 		withMaven(jdk: 'localjdk', maven: 'localmaven'){
 		sh 'mvn package'
-		archiveArtifacts 'webapp/target/*.war'
-                hygieiaArtifactPublishStep artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT'
-                hygieiaDeployPublishStep applicationName: 'Product1', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT', buildStatus: 'InProgress', environmentName: 'Dev'
 		}
 		}
 		}
@@ -25,12 +22,35 @@ stage('deploy to tomcat')
 steps{
 sshagent(['tomcat2']) {
     sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Pipeline-job/webapp/target/*.war  ec2-user@172.31.74.73:/usr/share/tomcat/webapps/'
-    hygieiaArtifactPublishStep artifactDirectory: '/usr/share/tomcat/webapps', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: ''
-    hygieiaDeployPublishStep applicationName: 'Liberty', artifactDirectory: '/usr/share/tomcat/webapps', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'DEV'
-		
+   		
 }
 }
 }
+stage('Deploy to DEV env') {
+            steps {
+                echo 'make publish'
+                hygieiaBuildPublishStep buildStatus: 'Success'
+                hygieiaArtifactPublishStep artifactDirectory: 'target', artifactGroup: 'www.letv.bank', artifactName: 'webapp*.war', artifactVersion: ''
+                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
+            }
+      
+       }
+stage('Smoke Test'){
+            steps {
+                echo 'run smoke test'
+            }
+        }
+ stage('Deploy to QA env') {
+            steps {
+                echo 'make publish'
+                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
+            }
+        }
+  stage('Deploy to Prod env') {
+            steps {
+                echo 'make publish'
+                hygieiaDeployPublishStep applicationName: 'Tidepods', artifactDirectory: 'target', artifactGroup: 'www.tidepods.com', artifactName: 'webapp*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Prod'
+    }
 }
-
+}
 }
