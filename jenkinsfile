@@ -20,5 +20,16 @@ stage('package')
 		}
 		}
 		}
+stage('deploy to tomcat')
+{
+steps{
+sshagent(['tomcat2']) {
+    sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Pipeline-job/webapp/target/*.war  ec2-user@172.31.74.73:/usr/share/tomcat/webapps/'
+    hygieiaArtifactPublishStep artifactDirectory: '/usr/share/tomcat/webapps', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: ''
+    hygieiaDeployPublishStep applicationName: 'Product1', artifactDirectory: '/usr/share/tomcat/webapps', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'QA'
+		
+}
+}
+}
 }
 }
