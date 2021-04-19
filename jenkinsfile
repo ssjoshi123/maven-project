@@ -13,29 +13,12 @@ stage('package')
 		{
 		steps{
 		withMaven(jdk: 'localjdk', maven: 'localmaven'){
-		sh 'mvn package'}
+		sh 'mvn package'
+		archiveArtifacts 'webapp/target/*.war'
+                hygieiaArtifactPublishStep artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT'
+                hygieiaDeployPublishStep applicationName: 'Product', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT', buildStatus: 'InProgress', environmentName: 'Dev'
 		}
 		}
-stage('maven sonar')
-{
-steps{
-withSonarQubeEnv('sonar'){
-withMaven(jdk: 'localjdk', maven: 'localmaven'){
-sh 'mvn package sonar:sonar'
-hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
-
-}
-}
-}
-}
-
-stage('publish to Hygieia')
-{
-steps{
-archiveArtifacts 'webapp/target/*.war'
-hygieiaArtifactPublishStep artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT'
-hygieiaDeployPublishStep applicationName: 'Product', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT', buildStatus: 'InProgress', environmentName: 'Dev'
-}
-}
+		}
 }
 }
