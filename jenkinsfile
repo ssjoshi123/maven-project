@@ -16,7 +16,7 @@ stage('package')
 		sh 'mvn package'
 		archiveArtifacts 'webapp/target/*.war'
                 hygieiaArtifactPublishStep artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT'
-                hygieiaDeployPublishStep applicationName: 'Product', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT', buildStatus: 'InProgress', environmentName: 'Dev'
+                hygieiaDeployPublishStep applicationName: 'Product1', artifactDirectory: 'webapp/target', artifactGroup: 'prinpal.com', artifactName: '*.war', artifactVersion: '1.0-SNAPSHOT', buildStatus: 'InProgress', environmentName: 'Dev'
 		}
 		}
 		}
