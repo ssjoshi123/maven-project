@@ -21,21 +21,14 @@ stage('maven sonar')
 steps{
 withSonarQubeEnv('sonar'){
 withMaven(jdk: 'localjdk', maven: 'localmaven'){
-
 sh 'mvn package sonar:sonar'
+hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
 
 }
 }
 }
 }
-stage('deploy to tomcat')
-{
-steps{
-sshagent(['tomcat2']) {
-    sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Pipeline-job/webapp/target/*.war  ec2-user@172.31.74.73:/usr/share/tomcat/webapps/'
-}
-}
-}
+
 stage('publish to Hygieia')
 {
 steps{
